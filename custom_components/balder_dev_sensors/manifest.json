@@ -1,0 +1,11 @@
+{
+  "domain": "balder_dev_sensors",
+  "name": "Balder Dev Sensors",
+  "codeowners": ["@Klurige"],
+  "config_flow": false,
+  "documentation": "https://github.com/Klurige/balder_dev_sensors",
+  "integration_type": "hub",
+  "iot_class": "cloud_polling",
+  "requirements": [],
+  "version": "0.1.0"
+}
