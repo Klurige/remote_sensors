@@ -8,6 +8,7 @@ from datetime import timedelta
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_track_time_interval
 
@@ -25,10 +26,12 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the sensor platform from a config entry."""
-    coordinator: BalderCoordinator = hass.data[DOMAIN][entry.entry_id]
+    data = hass.data[DOMAIN][entry.entry_id]
+    coordinator: BalderCoordinator = data["coordinator"]
+    device_info: DeviceInfo = data["device_info"]
     async_add_entities([
-        CounterSensor(hass),
-        InverterPowerSensor(hass, coordinator),
+        CounterSensor(hass, device_info),
+        InverterPowerSensor(hass, coordinator, device_info),
     ], True)
 
 
@@ -41,10 +44,11 @@ class CounterSensor(SensorEntity):
     _attr_should_poll = False
     _attr_exclude_from_recording = True
 
-    def __init__(self, hass: HomeAssistant) -> None:
+    def __init__(self, hass: HomeAssistant, device_info: DeviceInfo) -> None:
         self._hass = hass
         self._count: int = 0
         self._cancel = None
+        self._attr_device_info = device_info
 
     async def async_added_to_hass(self) -> None:
         self._cancel = async_track_time_interval(

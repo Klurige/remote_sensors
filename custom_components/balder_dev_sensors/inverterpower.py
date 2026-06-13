@@ -12,6 +12,7 @@ from homeassistant.components.sensor import (
     SensorStateClass,
 )
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers.device_registry import DeviceInfo
 
 from .coordinator import BalderCoordinator
 
@@ -28,7 +29,7 @@ class InverterPowerSensor(SensorEntity):
     _attr_should_poll = False
     _attr_exclude_from_recording = False
 
-    def __init__(self, hass: HomeAssistant, coordinator: BalderCoordinator) -> None:
+    def __init__(self, hass: HomeAssistant, coordinator: BalderCoordinator, device_info: DeviceInfo) -> None:
         description = SensorEntityDescription(
             key="inverterpower",
             translation_key="inverterpower",
@@ -36,6 +37,7 @@ class InverterPowerSensor(SensorEntity):
         self.entity_description = description
         self.entity_id = f"{SENSOR_DOMAIN}.balder_{description.key}"
         self._attr_unique_id = f"balder_dev_sensors_{description.key}"
+        self._attr_device_info = device_info
         self._coordinator = coordinator
 
     async def async_added_to_hass(self) -> None:
