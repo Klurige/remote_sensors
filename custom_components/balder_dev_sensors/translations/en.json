@@ -9,5 +9,12 @@
     "abort": {
       "single_instance_allowed": "Only one instance of Balder Dev Sensors is allowed."
     }
+  },
+  "entity": {
+    "sensor": {
+      "inverterpower": {
+        "name": "Inverter Power"
+      }
+    }
   }
 }

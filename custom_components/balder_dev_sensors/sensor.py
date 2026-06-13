@@ -11,6 +11,11 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_track_time_interval
 
+from .coordinator import BalderCoordinator
+from .inverterpower import InverterPowerSensor
+
+DOMAIN = "balder_dev_sensors"
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -20,7 +25,11 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up the sensor platform from a config entry."""
-    async_add_entities([CounterSensor(hass)], True)
+    coordinator: BalderCoordinator = hass.data[DOMAIN][entry.entry_id]
+    async_add_entities([
+        CounterSensor(hass),
+        InverterPowerSensor(hass, coordinator),
+    ], True)
 
 
 class CounterSensor(SensorEntity):
