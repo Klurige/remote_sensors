@@ -2,7 +2,7 @@
   "domain": "balder_dev_sensors",
   "name": "Balder Dev Sensors",
   "codeowners": ["@Klurige"],
-  "config_flow": false,
+  "config_flow": true,
   "documentation": "https://github.com/Klurige/balder_dev_sensors",
   "integration_type": "hub",
   "iot_class": "cloud_polling",
