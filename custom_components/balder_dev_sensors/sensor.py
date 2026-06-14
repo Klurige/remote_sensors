@@ -9,7 +9,11 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
+from .batterychargepower import BatteryChargePowerSensor
+from .batterymode import BatteryModeSensor
+from .batterysoc import BatterySocSensor
 from .coordinator import BalderCoordinator
+from .gridexport import GridExportSensor
 from .inverterpower import InverterPowerSensor
 
 DOMAIN = "balder_dev_sensors"
@@ -28,4 +32,8 @@ async def async_setup_entry(
     device_info: DeviceInfo = data["device_info"]
     async_add_entities([
         InverterPowerSensor(hass, coordinator, device_info),
+        BatteryModeSensor(hass, coordinator, device_info),
+        GridExportSensor(hass, coordinator, device_info),
+        BatteryChargePowerSensor(hass, coordinator, device_info),
+        BatterySocSensor(hass, coordinator, device_info),
     ], True)

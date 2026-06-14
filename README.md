@@ -31,21 +31,16 @@ If the file is absent the integration loads without errors but all sensors remai
 
 ## Implemented sensors
 
-| Entity ID | Unit | Remote entity | Description |
-|---|---|---|---|
-| `sensor.balder_inverterpower` | W | configured via `DEV_DEFAULTS["power_entity"]` | Inverter AC output power |
+| Entity ID | Unit | Remote entity | Poll interval | Description |
+|---|---|---|---|---|
+| `sensor.balder_inverterpower` | W | configured via `DEV_DEFAULTS["power_entity"]` | 30 s | Inverter AC output power |
+| `sensor.balder_batterymode` | — (string) | `sensor.batterilage` | 300 s | Battery charge/discharge mode + all remote attributes |
+| `sensor.balder_gridexport` | W | `sensor.elmatare_momentary_active_export` | 30 s | Grid export power |
+| `sensor.balder_batterychargepower` | W | `sensor.batteriladdeffekt` | 30 s | Battery charge power |
+| `sensor.balder_batterysoc` | % | `sensor.batteries_state_of_capacity` | 60 s | Battery state of charge |
 
 ---
 
-## TODO — sensors still to implement
+## TODO
 
-These sensors exist in the `cleanup` branch of `electricitypricelevels` and should be migrated here:
-
-| Sensor | Unit | Remote entity ID | Description |
-|---|---|---|---|
-| `sensor.balderbatterymode` | — (string) | `sensor.batterilage` | Battery charge/discharge mode; includes all remote attributes |
-| `sensor.baldergridexport` | W | `sensor.elmatare_momentary_active_export` | Grid export power |
-| `sensor.balderbatterychargepower` | W | `sensor.batteriladdeffekt` | Battery charge power |
-| `sensor.balderbatterysoc` | % | `sensor.batteries_state_of_capacity` | Battery state of charge |
-
-For each sensor: add a fetch call in `coordinator.py`, a callback pair (register/unregister/notify), and a sensor class following the pattern of `inverterpower.py`.
+All sensors from the original list are now implemented.

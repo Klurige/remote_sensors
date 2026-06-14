@@ -14,6 +14,18 @@
     "sensor": {
       "inverterpower": {
         "name": "Inverter Power"
+      },
+      "batterymode": {
+        "name": "Battery Mode"
+      },
+      "gridexport": {
+        "name": "Grid Export"
+      },
+      "batterychargepower": {
+        "name": "Battery Charge Power"
+      },
+      "batterysoc": {
+        "name": "Battery SoC"
       }
     }
   }
