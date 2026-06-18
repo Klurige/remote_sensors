@@ -9,24 +9,5 @@
     "abort": {
       "single_instance_allowed": "Only one instance of Balder Dev Sensors is allowed."
     }
-  },
-  "entity": {
-    "sensor": {
-      "inverterpower": {
-        "name": "Inverter Power"
-      },
-      "batterymode": {
-        "name": "Battery Mode"
-      },
-      "gridexport": {
-        "name": "Grid Export"
-      },
-      "batterychargepower": {
-        "name": "Battery Charge Power"
-      },
-      "batterysoc": {
-        "name": "Battery SoC"
-      }
-    }
   }
 }
