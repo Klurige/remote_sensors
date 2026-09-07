@@ -1,9 +1,9 @@
 {
-  "domain": "balder_dev_sensors",
-  "name": "Balder Dev Sensors",
+  "domain": "remote_sensors",
+  "name": "Remote Sensors",
   "codeowners": ["@Klurige"],
   "config_flow": true,
-  "documentation": "https://github.com/Klurige/balder_dev_sensors",
+  "documentation": "https://github.com/Klurige/remote_sensors",
   "integration_type": "hub",
   "iot_class": "cloud_polling",
   "requirements": [],

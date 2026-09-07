@@ -1,4 +1,4 @@
-"""Polling coordinator for Balder Dev Sensors."""
+"""Polling coordinator for Remote Sensors."""
 
 from __future__ import annotations
 
@@ -18,8 +18,8 @@ _LOGGER = logging.getLogger(__name__)
 UNKNOWN_STATES = {"unknown", "unavailable"}
 
 
-class BalderCoordinator:
-    """Polls sensors from the remote Balder HA instance."""
+class RemoteCoordinator:
+    """Polls configured sensors from a remote Home Assistant instance."""
 
     def __init__(self, hass: HomeAssistant) -> None:
         self.hass = hass
@@ -69,7 +69,7 @@ class BalderCoordinator:
             )
             for spec in self._sensor_specs
         ]
-        _LOGGER.info("BalderCoordinator: polling started")
+        _LOGGER.info("RemoteCoordinator: polling started")
 
     async def async_shutdown(self) -> None:
         for cancel in self._cancel_handles:

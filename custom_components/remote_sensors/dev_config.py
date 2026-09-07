@@ -10,7 +10,7 @@ Put Home Assistant connection details in ``dev_secrets.py`` instead.
 
 
 SENSORS = {
-    # Power coming from the solar panels. This will show the wrong value if
+    # Power coming from the inverter. This will show the wrong value if
     # If grid export is not allowed, this value will be capped to household consumption (and eventual battery charge)
     "inverterpower": {
         "name": "Inverter Power",
@@ -20,7 +20,19 @@ SENSORS = {
         "state_class": "measurement",
         "poll_seconds": 30,
         "value_type": "float",
-        "exclude_from_recording": False,
+        "exclude_from_recording": True,
+    },
+    # Power from the solar panels. This will show the wrong value if grid export is not allowed,
+    # this value will be capped to household consumption (and eventual battery charge)
+    "solarpower": {
+        "name": "Solar Power",
+        "entity_id": "sensor.input_power_with_efficiency_loss",
+        "native_unit_of_measurement": "W",
+        "device_class": "power",
+        "state_class": "measurement",
+        "poll_seconds": 30,
+        "value_type": "float",
+        "exclude_from_recording": True,
     },
     # The live auto battery mode. Used for comparison only
     "batterymode": {
@@ -95,6 +107,16 @@ SENSORS = {
     "waterheaterpower": {
         "name": "Water Heater Power",
         "entity_id": "sensor.varmvatten_effekt",
+        "native_unit_of_measurement": "W",
+        "device_class": "power",
+        "state_class": "measurement",
+        "poll_seconds": 30,
+        "value_type": "float",
+    },
+    # Power used by the dehumidifier
+    "dehumidifierpower": {
+        "name": "Dehumidifier Power",
+        "entity_id": "sensor.krypgrund_effekt",
         "native_unit_of_measurement": "W",
         "device_class": "power",
         "state_class": "measurement",

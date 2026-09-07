@@ -1,4 +1,4 @@
-"""Sensor platform for Balder Dev Sensors."""
+"""Sensor platform for Remote Sensors."""
 
 from __future__ import annotations
 
@@ -17,32 +17,33 @@ from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .catalog import SensorSpec
-from .coordinator import BalderCoordinator
+from .coordinator import RemoteCoordinator
 
-DOMAIN = "balder_dev_sensors"
+DOMAIN = "remote_sensors"
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class BalderRemoteSensor(SensorEntity):
-    """Generic remote sensor entity backed by the Balder coordinator."""
+class RemoteSensorEntity(SensorEntity):
+    """Generic remote sensor entity backed by the coordinator."""
 
-    _attr_has_entity_name = True
+    _attr_has_entity_name = False
     _attr_should_poll = False
 
     def __init__(
         self,
-        coordinator: BalderCoordinator,
+        coordinator: RemoteCoordinator,
         device_info: DeviceInfo,
+        remote_name: str,
         spec: SensorSpec,
     ) -> None:
         self._coordinator = coordinator
         self._spec = spec
 
-        self.entity_id = f"{SENSOR_DOMAIN}.balder_{spec.key}"
-        self._attr_unique_id = f"balder_dev_sensors_{spec.key}"
+        self.entity_id = f"{SENSOR_DOMAIN}.remote_{spec.key}"
+        self._attr_unique_id = f"remote_sensors_{spec.key}"
         self._attr_device_info = device_info
-        self._attr_name = spec.name
+        self._attr_name = f"{remote_name} {spec.name}".strip()
         self._attr_exclude_from_recording = spec.exclude_from_recording
 
         if spec.native_unit_of_measurement is not None:
@@ -82,12 +83,13 @@ async def async_setup_entry(
 ) -> None:
     """Set up the sensor platform from a config entry."""
     data = hass.data[DOMAIN][entry.entry_id]
-    coordinator: BalderCoordinator = data["coordinator"]
+    coordinator: RemoteCoordinator = data["coordinator"]
     device_info: DeviceInfo = data["device_info"]
+    remote_name: str = data.get("remote_name", "Remote")
 
     async_add_entities(
         [
-            BalderRemoteSensor(coordinator, device_info, spec)
+            RemoteSensorEntity(coordinator, device_info, remote_name, spec)
             for spec in coordinator.sensor_specs
         ],
         True,

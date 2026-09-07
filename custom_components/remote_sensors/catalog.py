@@ -1,4 +1,4 @@
-"""Configuration loading helpers for Balder Dev Sensors."""
+"""Configuration loading helpers for Remote Sensors."""
 
 from __future__ import annotations
 

@@ -1,20 +1,22 @@
-# Balder Dev Sensors
+# Remote Sensors
 
-A Home Assistant custom integration that proxies a set of sensors from the remote **Balder** HA instance into the local development instance. This avoids needing the `remote_homeassistant` integration to be active during development.
+A Home Assistant custom integration that proxies selected sensors from a remote HA instance into the local instance.
 
 ---
 
 ## Purpose
 
-When developing features that depend on live data from Balder (e.g. inverter power, battery state), this integration polls the Balder HA REST API directly using a long-lived access token. Sensors appear locally and update based on their configured polling intervals, making them available to other integrations such as `electricitypricelevels`.
+This integration polls the remote HA REST API with a long-lived access token. Sensors appear locally and update based on their configured polling intervals.
 
-The integration is **not intended for production use**. The sensor catalog lives in tracked `custom_components/balder_dev_sensors/dev_config.py`, while secrets live in gitignored `custom_components/balder_dev_sensors/dev_secrets.py`.
+The integration is intended for development/testing convenience. The sensor catalog lives in tracked `custom_components/remote_sensors/dev_config.py`, while secrets live in gitignored `custom_components/remote_sensors/dev_secrets.py`.
 
 ---
 
 ## Configuration
 
-Keep the tracked sensor catalog in `custom_components/balder_dev_sensors/dev_config.py`:
+When adding the integration in Home Assistant, enter **Remote Name** (for example `Balder`). Sensor friendly names are prefixed with this value. You can later change it in the integration options.
+
+Keep the tracked sensor catalog in `custom_components/remote_sensors/dev_config.py`:
 
 ```python
 SENSORS = {
@@ -30,10 +32,10 @@ SENSORS = {
 }
 ```
 
-Create a local-only `custom_components/balder_dev_sensors/dev_secrets.py`:
+Create a local-only `custom_components/remote_sensors/dev_secrets.py`:
 
 ```python
-HA_URL = "http://<balder-ip>:8123"
+HA_URL = "http://<remote-ha-host>:8123"
 HA_TOKEN = "<long-lived-access-token>"
 ```
 
@@ -43,7 +45,7 @@ If `dev_secrets.py` is absent the integration loads without errors but all senso
 
 ## Implemented sensors
 
-All sensors are declared in one place: `custom_components/balder_dev_sensors/dev_config.py`.
+All sensors are declared in one place: `custom_components/remote_sensors/dev_config.py`.
 
 Each entry defines the remote entity id, polling interval, data type, and optional Home Assistant fields such as unit, device class, state class, icon, and whether remote attributes should be exposed.
 

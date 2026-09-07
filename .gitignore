@@ -1,4 +1,5 @@
 __pycache__/
 *.pyc
 .venv/
-custom_components/balder_dev_sensors/dev_secrets.py
+custom_components/remote_sensors/dev_secrets.py
+.idea/
