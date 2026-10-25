@@ -1,0 +1,18 @@
+set_simulated_battery_mode:
+  target:
+    entity:
+      integration: remote_sensors
+      domain: sensor
+  fields:
+    mode:
+      required: true
+      example: charge
+      selector:
+        select:
+          options:
+            - standby
+            - charge
+            - discharge
+            - maxuse
+            - pvcharge
+            - sell

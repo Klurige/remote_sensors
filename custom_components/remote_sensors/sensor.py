@@ -13,11 +13,21 @@ from homeassistant.components.sensor import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import entity_platform
 from homeassistant.helpers.device_registry import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
+import voluptuous as vol
 
 from .catalog import SensorSpec
 from .coordinator import RemoteCoordinator
+from .fakecompactlevels import FakeCompactLevelsSensor
+from .simulatedbattery import (
+    ATTR_MODE,
+    MODES,
+    SERVICE_SET_MODE,
+    SimulatedBatteryModeSensor,
+    SimulatedBatterySensor,
+)
 
 DOMAIN = "remote_sensors"
 
@@ -87,10 +97,19 @@ async def async_setup_entry(
     device_info: DeviceInfo = data["device_info"]
     remote_name: str = data.get("remote_name", "Remote")
 
-    async_add_entities(
-        [
-            RemoteSensorEntity(coordinator, device_info, remote_name, spec)
-            for spec in coordinator.sensor_specs
-        ],
-        True,
+    entities: list[SensorEntity] = [
+        RemoteSensorEntity(coordinator, device_info, remote_name, spec)
+        for spec in coordinator.sensor_specs
+    ]
+    entities.append(FakeCompactLevelsSensor(hass, device_info, remote_name))
+    battery = SimulatedBatterySensor(hass, device_info, remote_name)
+    entities.append(battery)
+    entities.append(SimulatedBatteryModeSensor(battery, device_info, remote_name))
+
+    async_add_entities(entities, True)
+
+    entity_platform.async_get_current_platform().async_register_entity_service(
+        SERVICE_SET_MODE,
+        {vol.Required(ATTR_MODE): vol.In(MODES)},
+        "async_set_mode",
     )

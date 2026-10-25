@@ -10,14 +10,13 @@ Put Home Assistant connection details in ``dev_secrets.py`` instead.
 
 
 SENSORS = {
-    # Power coming from the inverter. This will show the wrong value if
-    # If grid export is not allowed, this value will be capped to household consumption (and eventual battery charge)
-    "inverterpower": {
-        "name": "Inverter Power",
-        "entity_id": "sensor.inverter_active_power",
-        "native_unit_of_measurement": "W",
-        "device_class": "power",
-        "state_class": "measurement",
+    # Household energy consumption. This is what the household actually uses, including solar and battery contributions. This is the main value used for battery optimization.
+    "household_energy_usage": {
+        "name": "Household consumption",
+        "entity_id": "sensor.beraknad_energianvandning",
+        "native_unit_of_measurement": "kWh",
+        "device_class": "energy",
+        "state_class": "total_increasing",
         "poll_seconds": 30,
         "value_type": "float",
         "exclude_from_recording": True,

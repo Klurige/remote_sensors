@@ -22,5 +22,17 @@
         }
       }
     }
+  },
+  "services": {
+    "set_simulated_battery_mode": {
+      "name": "Set simulated battery mode",
+      "description": "Sets the mode of the simulated battery. It charges or discharges until the mode is changed.",
+      "fields": {
+        "mode": {
+          "name": "Mode",
+          "description": "charge raises the state of charge at 5 kW. discharge and maxuse lower it at 1.5 kW. sell lowers it at 5 kW. standby keeps it. pvcharge raises it with the power of the solar power sensor, at most 5 kW."
+        }
+      }
+    }
   }
 }
